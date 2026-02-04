@@ -21,10 +21,10 @@ spring:
               predicates:
                 - Path=/api/listings/**
 
-            - id: booking-service
-              uri: lb://booking-service
-              predicates:
-                - Path=/api/bookings/**
+#            - id: booking-service
+#              uri: lb://booking-service
+#              predicates:
+#                - Path=/api/bookings/**
 server:
   port: 8080
 eureka:
