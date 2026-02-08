@@ -2,6 +2,12 @@ spring:
   application:
     name: api-gateway
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${JWT_JWK_SET_URI}
+
   cloud:
     gateway:
       server:
@@ -25,6 +31,40 @@ spring:
 #              uri: lb://booking-service
 #              predicates:
 #                - Path=/api/bookings/**
+
+            - id: user-service-docs
+              uri: lb://user-service
+              predicates:
+                - Path=/v3/api-docs/user
+              filters:
+                - RewritePath=/v3/api-docs/user, /v3/api-docs
+
+            - id: listing-service-docs
+              uri: lb://listing-service
+              predicates:
+                - Path=/v3/api-docs/listing
+              filters:
+                - RewritePath=/v3/api-docs/listing, /v3/api-docs
+
+#                - id: booking-service-docs
+#                  uri: lb://booking-service
+#                  predicates:
+#                    - Path=/v3/api-docs/booking
+#                  filters:
+#                    - RewritePath=/v3/api-docs/booking, /v3/api-docs
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: User Service
+        url: /v3/api-docs/user
+      - name: Listing Service
+        url: /v3/api-docs/listing
+#      - name: Booking Service
+#        url: /v3/api-docs/booking
 server:
   port: 8080
 eureka:
